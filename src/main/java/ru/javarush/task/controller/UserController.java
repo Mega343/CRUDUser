@@ -61,9 +61,9 @@ public class UserController {
 //    }
     @ResponseBody
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ModelAndView search(@RequestParam(name = "name") String name) {
-        ModelAndView mv = new ModelAndView("listUsers");
-        mv.addObject("user", userService.search(name));
+    public ModelAndView search(@RequestParam(value = "name") String name) {
+        ModelAndView mv = new ModelAndView("search");
+        mv.addObject("searchUsers", userService.search(name));
         return mv;
     }
 
