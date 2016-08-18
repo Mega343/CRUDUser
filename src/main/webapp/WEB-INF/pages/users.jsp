@@ -44,6 +44,22 @@
         .tg .tg-4eph {
             background-color: #f9f9f9
         }
+        ul.pagination {
+            display: inline-block;
+            margin-bottom: 10px;
+            padding: 0;
+        }
+
+        ul.pagination li {
+            display: inline;
+            border: 1px solid #ddd;
+            color: black;
+            float: left;
+            font-size: 18px;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s ease 0s;
+        }
     </style>
 </head>
 <body BGCOLOR="#ffffcc">
@@ -88,13 +104,10 @@
             </td>
         </tr>
         <tr>
+            <td><form:label path="admin"><spring:message text="Admin"/></form:label></td>
             <td>
-                <form:label path="admin">
-                    <spring:message text="Admin"/>
-                </form:label>
-            </td>
-            <td>
-                <form:input path="admin"/>
+                <form:radiobutton path="admin" value="true"/>Yes
+                <form:radiobutton path="admin" value="false"/>No
             </td>
         </tr>
         <tr>
@@ -112,15 +125,6 @@
     </table>
 </form:form>
 
-<form:form method="get" action="search">
-
-    <fieldset style="border:1px #00BFFF solid;" >
-        <p>  Input user name for search: <input type="text" name="name" size=26>
-
-            <input type="submit" value="Search">
-        </p>
-    </fieldset>
-</form:form>
 
 <h1>User List</h1>
 <c:if test="${!empty listUsers}">
@@ -148,6 +152,29 @@
         </c:forEach>
     </table>
 </c:if>
+
+<div>
+    <ul class="pagination">
+        <c:if test="${page > 1}">
+            <li><a href="<c:url value="/users"/>">&#60;&#60;</a></li>
+            <li><a href="<c:url value="/users"><c:param name="page" value="${page - 1}"/>${page - 1}</c:url>">&#60;</a></li>
+        </c:if>
+        <li><spring:message text="${page}"/></li>
+        <c:if test="${!empty listUsers}">
+            <li><a href="<c:url value="/users"><c:param name="page" value="${page + 1}"/>${page + 1}</c:url>">&#62;</a></li>
+        </c:if>
+    </ul>
+</div>
+
+<form:form method="get" action="search">
+
+    <fieldset style="border:1px #00BFFF solid;" >
+        <p>  Input user name for search: <input type="text" name="name" size=26>
+
+            <input type="submit" value="Search">
+        </p>
+    </fieldset>
+</form:form>
 
 
 </body>

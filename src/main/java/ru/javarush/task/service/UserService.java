@@ -12,5 +12,5 @@ public interface UserService {
     public void delete(int id);
     public User getUser(int id);
     public List<User> search(String name);
-    public List<User> getAllUsers();
+    public List<User> getAllUsers(Long page);
 }

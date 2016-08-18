@@ -20,9 +20,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "users", method = RequestMethod.GET)
-    public String listUsers(Model model){
+    public String listUsers(@RequestParam(value="page", required = false) Long page, Model model){
+        if (null == page)
+            page = 1L;
         model.addAttribute("user", new User());
-        model.addAttribute("listUsers", userService.getAllUsers());
+        model.addAttribute("listUsers", userService.getAllUsers(page));
+        model.addAttribute("page", page);
 
         return "users";
     }
@@ -46,19 +49,16 @@ public class UserController {
     }
 
     @RequestMapping("edit/{id}")
-    public String editUser(@PathVariable("id") int id, Model model){
+    public String editUser(@PathVariable("id") int id,@RequestParam(value="page", required = false) Long page, Model model){
+        if (null == page)
+            page = 1L;
         model.addAttribute("user", userService.getUser(id));
-        model.addAttribute("listUsers", userService.getAllUsers());
+        model.addAttribute("listUsers", userService.getAllUsers(page));
+        model.addAttribute("page", page);
 
         return "users";
     }
-//    @RequestMapping(value = "search{name}", method = RequestMethod.GET)
-//    public String searchUser(@PathVariable("name") String name, Model model){
-//        model.addAttribute("user", new User());
-//        model.addAttribute("searchUsers", userService.search(name));
-//
-//        return "search";
-//    }
+
     @ResponseBody
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ModelAndView search(@RequestParam(value = "name") String name) {

@@ -18,6 +18,7 @@ public class UserDaoImpl implements UserDao{
 
     private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
     private SessionFactory session;
+    private static final int limitPages = 10;
 
     @Override
     public void add(User user) {
@@ -49,9 +50,12 @@ public class UserDaoImpl implements UserDao{
         }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers(Long page) {
         Session session = this.session.getCurrentSession();
-        List<User> usersList = session.createQuery("from User").list();
+        Query query = session.createQuery("FROM User");
+        query.setFirstResult((int)(page - 1) * limitPages);
+        query.setMaxResults(limitPages);
+        List<User> usersList = query.list();
         return usersList;
     }
 

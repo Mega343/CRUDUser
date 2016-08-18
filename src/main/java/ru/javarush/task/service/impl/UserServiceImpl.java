@@ -22,7 +22,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void add(User user) {
         userDao.add(user);
-
     }
 
     @Override
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+    public List<User> getAllUsers(Long page) {
+        return userDao.getAllUsers(page);
     }
 }
