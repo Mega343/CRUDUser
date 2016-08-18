@@ -112,7 +112,7 @@
     </table>
 </form:form>
 
-<form action="search">
+<form:form method="get" action="search">
 
     <fieldset style="border:1px #00BFFF solid;" >
         <p>  Input user name for search: <input type="text" name="name" size=26>
@@ -120,7 +120,7 @@
             <input type="submit" value="Search">
         </p>
     </fieldset>
-</form>
+</form:form>
 
 <h1>User List</h1>
 <c:if test="${!empty listUsers}">

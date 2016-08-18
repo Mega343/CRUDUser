@@ -4,10 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.javarush.task.model.User;
 import ru.javarush.task.service.UserService;
 
@@ -54,13 +52,19 @@ public class UserController {
 
         return "users";
     }
-    @RequestMapping(value = "search{name}", method = RequestMethod.GET)
-    public String searchUser(@PathVariable("name") String name, Model model){
-        model.addAttribute("user", new User());
-        model.addAttribute("searchUsers", userService.search(name));
-
-        return "search";
+//    @RequestMapping(value = "search{name}", method = RequestMethod.GET)
+//    public String searchUser(@PathVariable("name") String name, Model model){
+//        model.addAttribute("user", new User());
+//        model.addAttribute("searchUsers", userService.search(name));
+//
+//        return "search";
+//    }
+    @ResponseBody
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ModelAndView search(@RequestParam(name = "name") String name) {
+        ModelAndView mv = new ModelAndView("listUsers");
+        mv.addObject("user", userService.search(name));
+        return mv;
     }
-
 
 }

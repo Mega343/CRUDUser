@@ -1,6 +1,7 @@
 package ru.javarush.task.dao.impl;
 
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import ru.javarush.task.dao.UserDao;
 import ru.javarush.task.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -44,18 +44,9 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public List<User> search(String name) {
-        List<User> searchUsers = new ArrayList<>();
-        for(User user : getAllUsers()){
-            if(user.getName().equals(name)){
-                searchUsers.add(user);
-                logger.info("User found" + user);
-            }
+            Query query = session.getCurrentSession().createQuery("select u from User u where name LIKE :name");
+            return query.setParameter("name", "%" + name + "%").list();
         }
-        if(searchUsers.isEmpty()){
-            logger.info("User didn't find");
-        }
-        return searchUsers;
-    }
 
     @Override
     public List<User> getAllUsers() {
